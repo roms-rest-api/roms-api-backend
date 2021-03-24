@@ -1,0 +1,4 @@
+core:
+  builds_dir: ~/builds/{codename}/{filename}
+  devices_org: DerpFest-Devices
+  github_token: FILL

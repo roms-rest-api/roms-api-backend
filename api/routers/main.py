@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-main_router = APIRouter()
+router = APIRouter()
 
-@main_router.get("/")
+@router.get("/")
 async def main_handler():
     return 'OK'
