@@ -20,8 +20,8 @@ mime = magic.Magic(mime=True)
 with open("config.yaml", "r") as config_file:
     config = yaml.load(config_file.read(), Loader=yaml.FullLoader)
 
-github_instance = Github(config['core']['github_token'])
-folder_id = config['core']['folder_id']
+github_instance = Github(config["core"]["github_token"])
+folder_id = config["core"]["folder_id"]
 
 logger.add("backend.log", rotation="1 week")
 logger.info("Cleaning up directories")

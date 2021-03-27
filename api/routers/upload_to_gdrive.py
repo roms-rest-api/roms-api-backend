@@ -1,7 +1,6 @@
 from api import gdrive, tmp_path, mime, folder_id
 
 import shutil
-import os
 
 from loguru import logger
 from fastapi import APIRouter, File, UploadFile

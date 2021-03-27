@@ -60,7 +60,9 @@ class GoogleDriveTools:
             .get(supportsTeamDrives=True, fileId=response["id"])
             .execute()
         )
-        logger.info(f"Uploaded file {file_name} successfully! Removing it now from host.")
+        logger.info(
+            f"Uploaded file {file_name} successfully! Removing it now from host."
+        )
         os.remove(cached_file)
         download_url = self.__GDRIVE_DOWNLOAD_URL.format(drive_file.get("id"))
         return download_url

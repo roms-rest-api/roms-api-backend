@@ -1,9 +1,10 @@
 import yaml
 
+
 class DevicesConfig:
     def __init__(self):
         self.filename = "devices.yaml"
-        
+
         self.init_file()
 
     def init_file(self):
@@ -19,4 +20,3 @@ class DevicesConfig:
     def save_file(self):
         with open(self.filename, "w") as config_file:
             config_file.write(yaml.dump(self.config))
-

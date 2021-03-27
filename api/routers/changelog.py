@@ -6,6 +6,7 @@ from api.models.common import APIResponse
 
 router = APIRouter(prefix="/changelog")
 
+
 @router.get("/device")
 async def device_changelog(codename: str = Query(default=None)):
     codename = codename.lower()
