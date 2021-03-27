@@ -1,4 +1,5 @@
 from api import gdrive, tmp_path, mime, folder_id
+from ..helpers.utils.utils import run_sync
 
 import shutil
 
@@ -19,7 +20,8 @@ async def get_uploads(file: UploadFile = File(...)):
 
     logger.info(mime_type)
 
-    uploaded_file = gdrive.upload_file(
+    uploaded_file = await run_sync(
+        gdrive.upload_file,
         cached_file=cached_file,
         file_name=file.filename,
         mime_type=mime_type,
