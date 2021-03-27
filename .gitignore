@@ -130,3 +130,10 @@ dmypy.json
 
 # Config stuff
 config.yaml
+*.json
+
+# temp dir
+tmp/
+
+# logs
+*.log
