@@ -134,3 +134,6 @@ config.yaml
 
 # temp dir
 tmp/
+
+# logs
+*.log
