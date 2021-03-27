@@ -1,4 +1,4 @@
-from api import gdrive, tmp_path, mime, folder_id
+from api import tmp_path, mime, folder_id
 from ..helpers.utils.utils import run_sync
 
 import shutil
@@ -12,6 +12,9 @@ router = APIRouter(prefix="/api")
 
 @router.post("/upload")
 async def get_uploads(file: UploadFile = File(...)):
+    from ..helpers.gdrive.gdrive import GoogleDriveTools
+    gdrive = GoogleDriveTools()
+
     cached_file = f"{tmp_path}{file.filename}"
 
     with open(cached_file, "wb") as buffer:

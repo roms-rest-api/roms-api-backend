@@ -1,5 +1,4 @@
 from api.helpers.configs.devices import DevicesConfig
-from api.helpers.gdrive.gdrive import GoogleDriveTools
 
 import yaml
 import os
@@ -13,7 +12,6 @@ from loguru import logger
 app = FastAPI()
 config: dict = None
 devices = DevicesConfig()
-gdrive = GoogleDriveTools()
 tmp_path = f"{os.getcwd()}/api/tmp/"
 mime = magic.Magic(mime=True)
 
