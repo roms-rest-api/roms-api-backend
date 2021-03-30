@@ -1,17 +1,26 @@
-from api import tmp_path, mime, folder_id
+from api import tmp_path, mime, drive_id
 from ..helpers.utils.utils import run_sync
+from api import firebase
+from ..models.common import APIResponse
 
 import shutil
 
-from loguru import logger
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, File, UploadFile, Form
 
 
 router = APIRouter(prefix="/api")
 
 
 @router.post("/upload")
-async def get_uploads(file: UploadFile = File(...)):
+async def get_uploads(token: str = Form(...), device: str = Form(...), username: str = Form(...), file: UploadFile = File(...)):
+    user = firebase.get_user(username=username, collection="Admin")
+
+    if isinstance(user.to_dict(), dict):
+        if token not in user.to_dict()["token"]:
+            return APIResponse(status=404, message="USER_NOT_FOUND")
+    else:
+        return APIResponse(status=404, message="USER_NOT_FOUND")
+
     from ..helpers.gdrive.gdrive import GoogleDriveTools
     gdrive = GoogleDriveTools()
 
@@ -21,14 +30,13 @@ async def get_uploads(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
     mime_type = mime.from_file(cached_file)
 
-    logger.info(mime_type)
-
-    uploaded_file = await run_sync(
+    await run_sync(
         gdrive.upload_file,
         cached_file=cached_file,
         file_name=file.filename,
         mime_type=mime_type,
-        folder_id=folder_id,
+        drive_id=drive_id,
+        device=device
     )
 
-    return uploaded_file
+    return APIResponse(status=200, message="UPLOADED_SUCCESSFULLY")
