@@ -2,3 +2,8 @@ core:
   builds_dir: ~/builds/{codename}/{filename}
   devices_org: DerpFest-Devices
   github_token: FILL
+  drive_id: FILL
+  firebase_cred_file: "/path/to/your/firebase_credentials.json"
+  firebase_project_id: "test-db-xxxx"
+  firebase_collection_user: "Users"
+  firebase_collection_admin: "Admin"
