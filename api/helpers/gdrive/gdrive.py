@@ -98,10 +98,7 @@ class GoogleDriveTools:
             .execute()
         )
 
-        if response.get("id"):
-            return response.get("id")
-        else:
-            return False
+        return response.get("id", False)
 
     # https://stackoverflow.com/a/56532379
     def check_folders(self, device, drive_id):
@@ -117,7 +114,4 @@ class GoogleDriveTools:
             )
             .execute()
         )
-        try:
-            return response.get("files", [])[0]["id"]
-        except Exception:
-            return response.get("files", [])
+        return response.get("files", False)

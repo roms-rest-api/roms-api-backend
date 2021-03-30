@@ -1,6 +1,6 @@
 from api import tmp_path, mime, drive_id
 from ..helpers.utils.utils import run_sync
-from api import firebase
+from api import firebase, firebase_collection_user
 from ..models.common import APIResponse
 
 import shutil
@@ -18,7 +18,7 @@ async def get_uploads(
     username: str = Form(...),
     file: UploadFile = File(...),
 ):
-    user = firebase.get_user(username=username, collection="Admin")
+    user = firebase.get_user(username=username, collection=firebase_collection_user)
 
     if isinstance(user.to_dict(), dict):
         if token not in user.to_dict()["token"]:
@@ -45,4 +45,4 @@ async def get_uploads(
         device=device,
     )
 
-    return APIResponse(status=200, message="UPLOADED_SUCCESSFULLY")
+    return APIResponse(status=200, message="SUCCESS")

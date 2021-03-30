@@ -22,6 +22,8 @@ github_instance = Github(config["core"]["github_token"])
 drive_id = config["core"]["drive_id"]
 firebase_cert = config["core"]["firebase_cred_file"]
 firebase_project_id = config["core"]["firebase_project_id"]
+firebase_collection_user = config["core"]["firebase_collection_user"]
+firebase_collection_admin = config["core"]["firebase_collection_admin"]
 
 firebase = FirebaseDatabase(firebase_cert=firebase_cert, project_id=firebase_project_id)
 

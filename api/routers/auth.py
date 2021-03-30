@@ -1,4 +1,4 @@
-from api import firebase
+from api import firebase, firebase_collection_admin
 from api.models.auth import AddUserRequest, AddUserResponse, DelUserRequest
 from api.models.common import APIResponse
 
@@ -11,7 +11,9 @@ router = APIRouter(prefix="/auth")
 
 @router.post("/add_user")
 async def add_user(request: AddUserRequest) -> APIResponse:
-    user = firebase.get_user(username=request.admin, collection="Admin")
+    user = firebase.get_user(
+        username=request.admin, collection=firebase_collection_admin
+    )
 
     if isinstance(user.to_dict(), dict):
         if request.token not in user.to_dict()["token"]:
@@ -27,7 +29,9 @@ async def add_user(request: AddUserRequest) -> APIResponse:
 
 @router.post("/delete_user")
 async def delete_user(request: DelUserRequest) -> APIResponse:
-    user = firebase.get_user(username=request.admin, collection="Admin")
+    user = firebase.get_user(
+        username=request.admin, collection=firebase_collection_admin
+    )
 
     if isinstance(user.to_dict(), dict):
         if request.token not in user.to_dict()["token"]:
@@ -37,4 +41,4 @@ async def delete_user(request: DelUserRequest) -> APIResponse:
 
     firebase.delete_user(username=request.name, collection="Users")
 
-    return APIResponse(status=200, message="SUCCESSFULLY_DELETED_USER")
+    return APIResponse(status=200, message="DELETE_USER_SUCCESS")
