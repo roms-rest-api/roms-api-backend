@@ -1,5 +1,5 @@
 import os
-import time 
+import time
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -40,18 +40,22 @@ class GoogleDriveTools:
         return build("drive", "v3", cache_discovery=False, credentials=creds)
 
     def upload_file(self, cached_file, file_name, mime_type, drive_id, device):
-        
+
         response = self.check_folders(device=device, drive_id=drive_id)
 
         if not response:
-            logger.info(f"Folder for device {device} does not exist, creating it now...")
+            logger.info(
+                f"Folder for device {device} does not exist, creating it now..."
+            )
             if self.create_folder(device=device, drive_id=drive_id):
                 time.sleep(5)
-                return self.upload_file(cached_file=cached_file, 
-                file_name=file_name, 
-                mime_type=mime_type, 
-                drive_id=drive_id, 
-                device=device)
+                return self.upload_file(
+                    cached_file=cached_file,
+                    file_name=file_name,
+                    mime_type=mime_type,
+                    drive_id=drive_id,
+                    device=device,
+                )
 
         file_metadata = {
             "name": file_name,
@@ -81,14 +85,18 @@ class GoogleDriveTools:
         return download_url
 
     def create_folder(self, device, drive_id):
-        
+
         file_metadata = {
-            'name': device,
-            'mimeType': 'application/vnd.google-apps.folder',
+            "name": device,
+            "mimeType": "application/vnd.google-apps.folder",
             "parents": [drive_id],
         }
 
-        response = self.__authorize.files().create(body=file_metadata, fields='id', supportsTeamDrives=True).execute()
+        response = (
+            self.__authorize.files()
+            .create(body=file_metadata, fields="id", supportsTeamDrives=True)
+            .execute()
+        )
 
         if response.get("id"):
             return response.get("id")
@@ -97,15 +105,19 @@ class GoogleDriveTools:
 
     # https://stackoverflow.com/a/56532379
     def check_folders(self, device, drive_id):
-        response = self.__authorize.files().list(
-            q=f'name="{device}" and mimeType="application/vnd.google-apps.folder"',
-            driveId=drive_id,
-            spaces='drive',
-            corpora='drive',
-            includeItemsFromAllDrives=True,
-            supportsAllDrives=True
-        ).execute()
-        try: 
-            return response.get('files', [])[0]["id"]
+        response = (
+            self.__authorize.files()
+            .list(
+                q=f'name="{device}" and mimeType="application/vnd.google-apps.folder"',
+                driveId=drive_id,
+                spaces="drive",
+                corpora="drive",
+                includeItemsFromAllDrives=True,
+                supportsAllDrives=True,
+            )
+            .execute()
+        )
+        try:
+            return response.get("files", [])[0]["id"]
         except Exception:
-            return response.get('files', [])
+            return response.get("files", [])

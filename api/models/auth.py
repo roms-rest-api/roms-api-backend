@@ -7,13 +7,16 @@ class AddUserRequest(BaseModel):
     token: str
     admin: str
 
+
 class UserAddResponse(BaseModel):
     device: str
     token: str
 
+
 class AddUserResponse(BaseModel):
     status: int
     message: UserAddResponse
+
 
 class DelUserRequest(BaseModel):
     token: str

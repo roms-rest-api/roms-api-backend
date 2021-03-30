@@ -12,7 +12,12 @@ router = APIRouter(prefix="/api")
 
 
 @router.post("/upload")
-async def get_uploads(token: str = Form(...), device: str = Form(...), username: str = Form(...), file: UploadFile = File(...)):
+async def get_uploads(
+    token: str = Form(...),
+    device: str = Form(...),
+    username: str = Form(...),
+    file: UploadFile = File(...),
+):
     user = firebase.get_user(username=username, collection="Admin")
 
     if isinstance(user.to_dict(), dict):
@@ -22,6 +27,7 @@ async def get_uploads(token: str = Form(...), device: str = Form(...), username:
         return APIResponse(status=404, message="USER_NOT_FOUND")
 
     from ..helpers.gdrive.gdrive import GoogleDriveTools
+
     gdrive = GoogleDriveTools()
 
     cached_file = f"{tmp_path}{file.filename}"
@@ -36,7 +42,7 @@ async def get_uploads(token: str = Form(...), device: str = Form(...), username:
         file_name=file.filename,
         mime_type=mime_type,
         drive_id=drive_id,
-        device=device
+        device=device,
     )
 
     return APIResponse(status=200, message="UPLOADED_SUCCESSFULLY")

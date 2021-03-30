@@ -21,10 +21,9 @@ class FirebaseDatabase:
         """
         self.__db.collection(collection).document(username).set(data)
         logger.info(f"Adding {collection} {username} as a maintainer")
-       
+
     def get_user(self, username, collection):
         return self.__db.collection(collection).document(username).get()
-        
+
     def delete_user(self, username, collection):
         return self.__db.collection(collection).document(username).delete()
-

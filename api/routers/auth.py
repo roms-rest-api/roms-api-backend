@@ -24,6 +24,7 @@ async def add_user(request: AddUserRequest) -> APIResponse:
 
     return AddUserResponse(status=200, message=data)
 
+
 @router.post("/delete_user")
 async def delete_user(request: DelUserRequest) -> APIResponse:
     user = firebase.get_user(username=request.admin, collection="Admin")
@@ -37,4 +38,3 @@ async def delete_user(request: DelUserRequest) -> APIResponse:
     firebase.delete_user(username=request.name, collection="Users")
 
     return APIResponse(status=200, message="SUCCESSFULLY_DELETED_USER")
-        
