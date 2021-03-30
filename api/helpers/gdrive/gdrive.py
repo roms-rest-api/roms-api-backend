@@ -62,6 +62,7 @@ class GoogleDriveTools:
             "description": "Derpfest ROM",
             "mimeType": mime_type,
             "parents": [response],
+            "parents": [folder_id],
         }
 
         media_body = MediaFileUpload(cached_file, mimetype=mime_type, resumable=False)

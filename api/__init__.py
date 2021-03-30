@@ -27,7 +27,6 @@ firebase_collection_admin = config["core"]["firebase_collection_admin"]
 
 firebase = FirebaseDatabase(firebase_cert=firebase_cert, project_id=firebase_project_id)
 
-
 logger.add("backend.log", rotation="1 week")
 logger.info("Cleaning up directories")
 if os.path.isdir("api/tmp"):
