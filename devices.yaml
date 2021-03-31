@@ -1,3 +1,18 @@
-citrus:
+- name: Redmi Note 7 Pro
+  brand: Xiaomi
+  codename: violet
+  supported_versions:
+    - version_code: eleven
+      stable: true
+- name: POCO M3
+  brand: Xiaomi
   codename: citrus
-  manufacturer: xiaomi
+  supported_versions:
+    - version_code: eleven
+      stable: true
+- name: XT
+  brand: Realme
+  codename: RMX1921
+  supported_versions:
+    - version_code: eleven
+      stable: false
