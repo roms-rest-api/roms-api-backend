@@ -10,6 +10,7 @@ class Device(BaseModel):
     brand: str
     codename: str
     supported_versions: List[DeviceVersion]
+    img: str
 
 class DevicesResponse(BaseModel):
     status: int
