@@ -1,5 +1,3 @@
-from api.helpers.configs.devices import DevicesConfig
-from api.helpers.firebase.firebase import FirebaseDatabase
 
 import yaml
 import os
@@ -9,6 +7,9 @@ import shutil
 from fastapi import FastAPI
 from github import Github
 from loguru import logger
+
+from api.helpers.configs.devices import DevicesConfig
+from api.helpers.firebase.firebase import FirebaseDatabase
 
 app = FastAPI()
 config: dict = None
@@ -34,6 +35,6 @@ if os.path.isdir("api/tmp"):
 os.mkdir("api/tmp")
 
 
-from api.main import main
+from api.main import main  # noqa: E402
 
 main()

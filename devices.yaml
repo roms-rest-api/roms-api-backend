@@ -1,30 +1,34 @@
-- name: Redmi Note 7 Pro
-  brand: Xiaomi
-  codename: violet
-  supported_versions:
-    - version_code: eleven
-      stable: true
-  img: https://i.citrus.ua/imgcache/size_500/uploads/shop/a/4/a4280fa657ba385046ebf4e0fb3c9ecd.jpg
-- name: POCO M3
-  brand: Xiaomi
-  codename: citrus
-  supported_versions:
-    - version_code: eleven
-      stable: true
-  img: https://images.ua.prom.st/3007848233_smartfon-poco-m3.jpg
-- name: XT
-  brand: Realme
-  codename: RMX1921
-  supported_versions:
-    - version_code: eleven
-      stable: false
-  img: https://img.ktc.ua/img/base/1_505/8/290388.jpg
-- name: Redmi Note 9S
-  brand: Xiaomi
-  codename: curtana
-  supported_versions:
-    - version_code: ten
-      stable: true
-    - version_code: eleven
-      stable: false
-  img: https://images.ua.prom.st/2341903096_w640_h640_xiaomi-redmi-note.jpg
+violet:
+  - name: Redmi Note 7 Pro
+    brand: Xiaomi
+    codename: violet
+    supported_versions:
+      - version_code: eleven
+        stable: true
+    img: https://i.citrus.ua/imgcache/size_500/uploads/shop/a/4/a4280fa657ba385046ebf4e0fb3c9ecd.jpg
+citrus:
+  - name: POCO M3
+    brand: Xiaomi
+    codename: citrus
+    supported_versions:
+      - version_code: eleven
+        stable: true
+    img: https://images.ua.prom.st/3007848233_smartfon-poco-m3.jpg
+RMX1921:
+  - name: XT
+    brand: Realme
+    codename: RMX1921
+    supported_versions:
+      - version_code: eleven
+        stable: false
+    img: https://img.ktc.ua/img/base/1_505/8/290388.jpg
+curtana:
+  - name: Redmi Note 9S
+    brand: Xiaomi
+    codename: curtana
+    supported_versions:
+      - version_code: ten
+        stable: true
+      - version_code: eleven
+        stable: false
+    img: https://images.ua.prom.st/2341903096_w640_h640_xiaomi-redmi-note.jpg

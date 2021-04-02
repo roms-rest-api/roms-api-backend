@@ -1,9 +1,11 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
+
 
 class DeviceVersion(BaseModel):
     version_code: str
     stable: bool
+
 
 class Device(BaseModel):
     name: str
@@ -12,6 +14,19 @@ class Device(BaseModel):
     supported_versions: List[DeviceVersion]
     img: str
 
+
 class DevicesResponse(BaseModel):
     status: int
     message: List[Device]
+
+
+class Build(BaseModel):
+    changelog: str
+    timestamp: float
+    uploader_username: str
+    link: Optional[str]
+
+
+class DeviceBuildsResponse(BaseModel):
+    status: int
+    message: List[Build]

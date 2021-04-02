@@ -1,12 +1,12 @@
-from api import tmp_path, mime, drive_id
-from ..helpers.utils.utils import run_sync
-from api import firebase, firebase_collection_user
-from ..models.common import APIResponse
 
 import shutil
+import time
 
 from fastapi import APIRouter, File, UploadFile, Form
 
+from .. import tmp_path, mime, drive_id, firebase, firebase_collection_user
+from ..helpers.utils.utils import run_sync
+from ..models.common import APIResponse
 
 router = APIRouter(prefix="/api")
 
@@ -14,7 +14,9 @@ router = APIRouter(prefix="/api")
 @router.post("/upload")
 async def get_uploads(
     token: str = Form(...),
-    device: str = Form(...),
+    codename: str = Form(...),
+    changelog: str = Form(...),
+    version: str = Form(...),
     username: str = Form(...),
     file: UploadFile = File(...),
 ):
@@ -36,13 +38,22 @@ async def get_uploads(
         shutil.copyfileobj(file.file, buffer)
     mime_type = mime.from_file(cached_file)
 
-    await run_sync(
+    file_id = await run_sync(
         gdrive.upload_file,
         cached_file=cached_file,
         file_name=file.filename,
         mime_type=mime_type,
         drive_id=drive_id,
-        device=device,
+        device=codename,
+    )
+
+    firebase.add_build(
+        file_id=file_id,
+        time=time.time(),
+        username=username,
+        version=version,
+        codename=codename,
+        changelog=changelog
     )
 
     return APIResponse(status=200, message="SUCCESS")

@@ -1,15 +1,14 @@
+from typing import List
 from pydantic import BaseModel
 
 
 class AddUserRequest(BaseModel):
     name: str
-    device: str
-    token: str
-    admin: str
+    devices: List[str]
 
 
 class UserAddResponse(BaseModel):
-    device: str
+    devices: List[str]
     token: str
 
 

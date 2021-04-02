@@ -7,3 +7,4 @@ core:
   firebase_project_id: "test-db-xxxx"
   firebase_collection_user: "Users"
   firebase_collection_admin: "Admin"
+  firebase_rldb: FILL

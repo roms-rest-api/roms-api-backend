@@ -1,7 +1,6 @@
 import firebase_admin
 
-from firebase_admin import credentials
-from firebase_admin import firestore
+from firebase_admin import credentials, firestore, db
 from loguru import logger
 
 
@@ -27,3 +26,33 @@ class FirebaseDatabase:
 
     def delete_user(self, username, collection):
         return self.__db.collection(collection).document(username).delete()
+
+    def get_rldb(self):
+        from api import config
+
+        return db.reference(url=config['core']['firebase_rldb'])
+
+    def get_builds_rldb(self):
+        from api import config
+
+        rldb = self.get_rldb()
+        return rldb.child(config['core']['firebase_rldb_builds_db'])
+
+    def add_build(
+        self,
+        file_id: str,
+        time: float,
+        username: str,
+        version: str,
+        codename: str,
+        changelog: str
+    ):
+        device_ref = self.get_builds_rldb().child(codename).child(version)
+
+        new_build_ref = device_ref.push()
+        new_build_ref.set({
+            'gdrive_file_id': file_id,
+            'timestamp': time,
+            'uploader_username': username,
+            'changelog': changelog
+        })

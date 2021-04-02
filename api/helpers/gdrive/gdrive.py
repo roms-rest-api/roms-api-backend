@@ -39,8 +39,7 @@ class GoogleDriveTools:
 
         return build("drive", "v3", cache_discovery=False, credentials=creds)
 
-    def upload_file(self, cached_file, file_name, mime_type, drive_id, device):
-
+    def upload_file(self, cached_file, file_name, mime_type, drive_id, device) -> str:
         response = self.check_folders(device=device, drive_id=drive_id)
 
         if not response:
@@ -61,7 +60,7 @@ class GoogleDriveTools:
             "name": file_name,
             "description": "Derpfest ROM",
             "mimeType": mime_type,
-            "parents": [folder_id],
+            "parents": [response],
         }
 
         media_body = MediaFileUpload(cached_file, mimetype=mime_type, resumable=False)
@@ -81,11 +80,10 @@ class GoogleDriveTools:
             f"Uploaded file {file_name} successfully! Removing it now from host."
         )
         os.remove(cached_file)
-        download_url = self.__GDRIVE_DOWNLOAD_URL.format(drive_file.get("id"))
-        return download_url
+
+        return drive_file.get("id")
 
     def create_folder(self, device, drive_id):
-
         file_metadata = {
             "name": device,
             "mimeType": "application/vnd.google-apps.folder",
