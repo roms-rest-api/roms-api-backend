@@ -12,7 +12,7 @@ class GithubSearcher:
 
     def get_repo(self):
         repo_name: str = (
-            f"device_{self.device_obj['manufacturer']}_{self.device_obj['codename']}"
+            f"device_{self.device_obj[0]['brand']}_{self.device_obj[0]['codename']}"
         )
 
         self.repo = github_instance.get_repo(
@@ -20,17 +20,17 @@ class GithubSearcher:
         )
 
     def get_changelog(self) -> str:
-        if not self.device_obj.get("commit_hash", None):
+        if not self.device_obj[0].get("commit_hash", None):
             needed_commits: int = self.MAX_COMMITS
             commits = self.repo.get_commits()
 
             if commits.totalCount <= needed_commits:
                 needed_commits = commits.totalCount - 1
 
-            self.device_obj["commit_hash"] = commits[needed_commits].sha
+            self.device_obj[0]["commit_hash"] = commits[needed_commits].sha
 
         commit_date = self.repo.get_commit(
-            sha=self.device_obj["commit_hash"]
+            sha=self.device_obj[0]["commit_hash"]
         ).commit.author.date
         commits = self.repo.get_commits(since=commit_date)
 
@@ -40,7 +40,7 @@ class GithubSearcher:
             commits_txt = "No commits"
         else:
             for commit in commits:
-                commits_txt += commit.commit.message.splitlines()[0]
+                commits_txt += f"\n{commit.commit.message}\n======="
 
         # TODO: Update hash based on new build date
 
