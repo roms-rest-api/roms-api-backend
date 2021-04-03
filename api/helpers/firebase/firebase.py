@@ -5,11 +5,13 @@ from loguru import logger
 
 
 class FirebaseDatabase:
-    def __init__(self, firebase_cert, project_id):
+    def __init__(self, firebase_cert, project_id, firebase_rldb, rldb_builds):
         """ initialize authenticated GDrive Object """
         cred = credentials.Certificate(firebase_cert)
         firebase_admin.initialize_app(cred, {"projectId": project_id})
         self.__db = firestore.client()
+        self.__db_rldb = db.reference(url=firebase_rldb)
+        self.__db_rldb_builds = rldb_builds
 
     def create_user(self, collection, username, data):
         """
@@ -28,15 +30,12 @@ class FirebaseDatabase:
         return self.__db.collection(collection).document(username).delete()
 
     def get_rldb(self):
-        from api import config
-
-        return db.reference(url=config['core']['firebase_rldb'])
+        return self.__db_rldb
 
     def get_builds_rldb(self):
-        from api import config
 
         rldb = self.get_rldb()
-        return rldb.child(config['core']['firebase_rldb_builds_db'])
+        return rldb.child(self.__db_rldb_builds)
 
     def add_build(
         self,
@@ -45,14 +44,16 @@ class FirebaseDatabase:
         username: str,
         version: str,
         codename: str,
-        changelog: str
+        changelog: str,
     ):
         device_ref = self.get_builds_rldb().child(codename).child(version)
 
         new_build_ref = device_ref.push()
-        new_build_ref.set({
-            'gdrive_file_id': file_id,
-            'timestamp': time,
-            'uploader_username': username,
-            'changelog': changelog
-        })
+        new_build_ref.set(
+            {
+                "gdrive_file_id": file_id,
+                "timestamp": time,
+                "uploader_username": username,
+                "changelog": changelog,
+            }
+        )
