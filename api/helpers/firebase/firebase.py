@@ -64,11 +64,16 @@ class FirebaseDatabase:
         return rldb.child(self.__db_rldb_commits)
 
     def add_latest_commits(self, commit, codename):
-        device_ref = self.__db_rldb.get_commits_rldb().child(codename)
+        
+        device_ref = self.get_commits_rldb().child(codename)
         new_build_ref = device_ref.push()
 
         new_build_ref.set(
             {
-                "changelog": commit,
+                "last_commit": commit,
             }
         )
+
+    def get_commit(self, codename):
+        device = self.get_commits_rldb().child(codename).get()
+        return device.get("last_commit")

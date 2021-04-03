@@ -45,3 +45,7 @@ class GithubSearcher:
         # TODO: Update hash based on new build date
 
         return commits_txt
+
+    def latest_commit(self):
+        commits = self.repo.get_commits()
+        return commits[0].commit.sha
