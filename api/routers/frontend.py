@@ -9,7 +9,7 @@ router = APIRouter(prefix="/frontend")
 
 @router.get("/devices")
 async def devices_handler():
-    return DevicesResponse(status=200, message=devices.config)
+    return DevicesResponse(status=200, message=list(devices.config.values()))
 
 
 @router.get("/builds/{device}/{version}")
@@ -23,4 +23,4 @@ async def builds_handler(device: str, version: str):
     if not ref:
         return DeviceBuildsResponse(status=200, message=[])
 
-    return DeviceBuildsResponse(status=200, message=[x[1] for x in list(ref.items())])
+    return DeviceBuildsResponse(status=200, message=list(ref.values()))
