@@ -1,5 +1,5 @@
 from api.helpers.commits.github import GithubSearcher
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Form
 
 from api import devices
 from api.models.common import APIResponse
@@ -8,7 +8,7 @@ router = APIRouter(prefix="/changelog")
 
 
 @router.get("/device")
-async def device_changelog(codename: str = Query(default=None)):
+async def device_changelog(codename: str = Form(...)):
     codename = codename.lower()
 
     device = devices.get(codename)

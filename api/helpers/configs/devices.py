@@ -2,8 +2,8 @@ import yaml
 
 
 class DevicesConfig:
-    def __init__(self):
-        self.filename = "devices.yaml"
+    def __init__(self, devices_config):
+        self.filename = devices_config
 
         self.init_file()
 

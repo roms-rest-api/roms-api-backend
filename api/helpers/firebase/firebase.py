@@ -5,13 +5,14 @@ from loguru import logger
 
 
 class FirebaseDatabase:
-    def __init__(self, firebase_cert, project_id, firebase_rldb, rldb_builds):
+    def __init__(self, firebase_cert, project_id, firebase_rldb, rldb_builds, firebase_rldb_commits_db):
         """ initialize authenticated GDrive Object """
         cred = credentials.Certificate(firebase_cert)
         firebase_admin.initialize_app(cred, {"projectId": project_id})
         self.__db = firestore.client()
         self.__db_rldb = db.reference(url=firebase_rldb)
         self.__db_rldb_builds = rldb_builds
+        self.__db_rldb_commits = firebase_rldb_commits_db
 
     def create_user(self, collection, username, data):
         """
@@ -55,5 +56,20 @@ class FirebaseDatabase:
                 "timestamp": time,
                 "uploader_username": username,
                 "changelog": changelog,
+            }
+        )
+
+    def get_commits_rldb(self):
+        rldb = self.get_rldb()
+        return rldb.child(self.__db_rldb_commits)
+
+    def add_latest_commits(self, commit, codename):
+        
+        device_ref = self.__db_rldb.get_commits_rldb().child(codename)
+        new_build_ref = device_ref.push()
+
+        new_build_ref.set(
+            {
+                "changelog": commit,
             }
         )
