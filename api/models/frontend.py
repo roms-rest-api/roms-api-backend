@@ -25,6 +25,7 @@ class Build(BaseModel):
     timestamp: float
     uploader_username: str
     link: Optional[str]
+    id: str
 
 
 class DeviceBuildsResponse(BaseModel):

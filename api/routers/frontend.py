@@ -23,4 +23,11 @@ async def builds_handler(device: str, version: str):
     if not ref:
         return DeviceBuildsResponse(status=200, message=[])
 
+    result = []
+    for item in ref.items():
+        dict_obj = item[1]
+        dict_obj['id'] = item[0]
+
+        result.append(dict_obj)
+
     return DeviceBuildsResponse(status=200, message=list(ref.values()))
