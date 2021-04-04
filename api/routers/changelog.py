@@ -17,11 +17,5 @@ async def device_changelog(codename: str = Form(...)):
 
     instance = GithubSearcher(codename)
     changelog = instance.get_changelog()
-    repo_commit = instance.get_latest_commit()
-
-    saved_commit = firebase.get_commit(codename)
-
-    if repo_commit not in saved_commit:
-        pass # TODO generate new changelogs 
 
     return changelog
