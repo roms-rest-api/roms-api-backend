@@ -1,4 +1,3 @@
-
 import shutil
 import time
 
@@ -53,7 +52,7 @@ async def get_uploads(
         username=username,
         version=version,
         codename=codename,
-        changelog=changelog
+        changelog=changelog,
     )
 
     return APIResponse(status=200, message="SUCCESS")
