@@ -9,6 +9,7 @@ from loguru import logger
 
 from api.helpers.configs.devices import DevicesConfig
 from api.helpers.firebase.firebase import FirebaseDatabase
+from api.helpers.telegraph.telegraph import TelegraphPost
 
 app = FastAPI()
 config: dict = None
@@ -33,8 +34,13 @@ firebase = FirebaseDatabase(
     project_id=firebase_project_id,
     firebase_rldb=firebase_rldb,
     rldb_builds=rldb_builds,
-    firebase_rldb_commits_db=firebase_rldb_commits_db
 )
+
+rom_pic = config["core"]["rom_pic"]
+short_name = config["core"]["rom_name"]
+author_name = config["core"]["author_name"]
+telegraph = TelegraphPost(short_name=short_name, author_name=author_name)
+
 
 logger.add("backend.log", rotation="1 week")
 logger.info("Cleaning up directories")

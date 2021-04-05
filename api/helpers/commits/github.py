@@ -1,5 +1,7 @@
 from api import github_instance, config, devices
 
+import re
+
 
 class GithubSearcher:
     def __init__(self, codename: str):
@@ -40,7 +42,8 @@ class GithubSearcher:
             commits_txt = "No commits"
         else:
             for commit in commits:
-                commits_txt += f"\n{commit.commit.message}\n======="
+                commit_message = re.sub("\n.*", "", commit.commit.message)
+                commits_txt += f"<br>{commit_message}</br>"
 
         # TODO: Update hash based on new build date
 
