@@ -10,6 +10,7 @@ from loguru import logger
 from api.helpers.configs.devices import DevicesConfig
 from api.helpers.firebase.firebase import FirebaseDatabase
 from api.helpers.telegraph.telegraph import TelegraphPost
+from api.helpers.telegram.telegram import Telegram
 
 app = FastAPI()
 config: dict = None
@@ -28,6 +29,13 @@ firebase_collection_admin = config["core"]["firebase_collection_admin"]
 firebase_rldb = config["core"]["firebase_rldb"]
 rldb_builds = config["core"]["firebase_rldb_builds_db"]
 firebase_rldb_commits_db = config["core"]["firebase_rldb_commits_db"]
+rom_pic_url = config["core"]["rom_pic_url"]
+short_name = config["core"]["rom_name"]
+author_name = config["core"]["author_name"]
+buttons = config["core"]["buttons"]
+channel_name = config["core"]["channel_name"]
+support_group = config["core"]["support_group"]
+telegram_token = config["core"]["telegram_token"]
 
 firebase = FirebaseDatabase(
     firebase_cert=firebase_cert,
@@ -36,11 +44,16 @@ firebase = FirebaseDatabase(
     rldb_builds=rldb_builds,
 )
 
-rom_pic = config["core"]["rom_pic"]
-short_name = config["core"]["rom_name"]
-author_name = config["core"]["author_name"]
-telegraph = TelegraphPost(short_name=short_name, author_name=author_name)
+telegraph = TelegraphPost(
+    short_name=short_name, 
+    author_name=author_name
+)
 
+telegram = Telegram(
+    bot_token=telegram_token, 
+    rom_pic_url=rom_pic_url, 
+    buttons=buttons
+)
 
 logger.add("backend.log", rotation="1 week")
 logger.info("Cleaning up directories")
