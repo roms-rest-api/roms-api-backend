@@ -8,3 +8,13 @@ core:
   firebase_collection_user: "Users"
   firebase_collection_admin: "Admin"
   firebase_rldb: FILL
+  firebase_rldb_builds_db: "builds"
+  firebase_rldb_commits_db: "commits"
+  rom_name: "DerpFest"
+  author_name: "DerpFest-Bot"
+  rom_pic_url: "https://i.imgur.com/eAKLEBp.jpg"
+  telegram_token: FILL
+  channel_name: "@YOURCHANNELNAME"
+  buttons: ["Changelogs", "Download"]
+  support_group: "@YOURSUPPORTGROUP"
+  
