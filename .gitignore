@@ -137,3 +137,8 @@ tmp/
 
 # logs
 *.log
+
+# pictures
+*.jpg
+*.png
+*.jpeg
