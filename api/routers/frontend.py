@@ -3,8 +3,10 @@ from fastapi import APIRouter
 from api import devices, firebase
 from api.models.frontend import DevicesResponse, DeviceBuildsResponse
 from api.models.common import APIResponse
+from api.helpers.telegraph.changelogs import get_changelog
 
 router = APIRouter(prefix="/frontend")
+GDRIVE_BASE_LINK = "https://drive.google.com/uc?id={}&export=download"
 
 
 @router.get("/devices")
@@ -27,6 +29,8 @@ async def builds_handler(device: str, version: str):
     for item in ref.items():
         dict_obj = item[1]
         dict_obj['id'] = item[0]
+        dict_obj['changelog'] = get_changelog(dict_obj)
+        dict_obj['link'] = GDRIVE_BASE_LINK.format(dict_obj['gdrive_file_id'])
 
         result.append(dict_obj)
 
