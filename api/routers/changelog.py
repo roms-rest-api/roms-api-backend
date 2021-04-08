@@ -9,6 +9,7 @@ from api import (
     telegram,
     channel_name,
     support_group,
+    firebase,
 )
 from api.models.common import APIResponse
 
@@ -31,12 +32,14 @@ async def device_changelog(codename: str = Form(...)):
         changelog=changelog, 
         rom_pic=rom_pic_url
     )
+    url = firebase.get_build_link(codename=codename, version="eleven")
 
-    telegram.send_message(
+    await telegram.send_message(
         chat_id=channel_name,
         device=codename,
-        link=response,
+        changelog_link=response,
         rom_name=short_name,
         group_name=support_group,
+        download_link=url,
     )
     return changelog

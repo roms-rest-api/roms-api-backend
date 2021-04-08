@@ -6,13 +6,15 @@ from loguru import logger
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import exceptions, executor
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from datetime import date
 
 
 class Telegram:
-    def __init__(self, bot_token, rom_pic_url, buttons):
+    def __init__(self, bot_token, rom_pic_url, buttons, config):
         self.__BUTTONS = buttons
         self.__ROM_URL = rom_pic_url
         self.__ROM_PIC = self.get_image()
+        self.__CONFIG = config
         self.bot = Bot(token=bot_token, parse_mode=types.ParseMode.HTML)
         self.dp = Dispatcher(self.bot)
 
@@ -20,19 +22,27 @@ class Telegram:
         self,
         chat_id: str,
         device: str,
-        link: str,
+        changelog_link: str,
         rom_name: str,
         group_name: str,
+        download_link: str,
     ):
 
-        inline_buttons = (InlineKeyboardButton(key, url=link) for key in self.__BUTTONS)
+        inline_buttons = (
+            InlineKeyboardButton(key, url=link)
+            for key, link in zip(self.__BUTTONS, (changelog_link, download_link))
+        )
         markup = InlineKeyboardMarkup(row_width=2)
         markup.add(*inline_buttons)
 
         message = (
-            f"#{device}\n\n"
-            f"{rom_name} for {device}\n\n"
-            f"Support group 👉🏻 {group_name}\n"
+            f"{rom_name} | Official\n"
+            "Android 11 (R)\n"
+            f'For: {self.__CONFIG[device]["brand"]} {self.__CONFIG[device]["name"]} ({device})\n'
+            f'Updated: {date.today().strftime("%d %B, %Y")}\n'
+            f'By: @{self.__CONFIG[device]["maintainer"]}\n\n'
+            f"Support group 👉🏻 {group_name}\n\n"
+            f"#{rom_name} #ROM #R #{device} #Official"
         )
 
         # https://github.com/aiogram/aiogram/blob/1e2fe72aca12a3fc6f2d1f66c71539af5a84ea00/examples/broadcast_example.py#L25
@@ -50,13 +60,14 @@ class Telegram:
                 f"Target [ID:{chat_id}]: Flood limit is exceeded. Sleep {e.timeout} seconds."
             )
             await asyncio.sleep(e.timeout)
-            return await self.bot.send_photo(
+            with open(self.__ROM_PIC, "rb") as photo:
+                return await self.bot.send_photo(
                     chat_id, photo, caption=message, reply_markup=markup
                 )  # Recursive call
         except exceptions.UserDeactivated:
             logger.error(f"Target [ID:{chat_id}]: user is deactivated")
         except exceptions.TelegramAPIError:
-            logger.exception(f"Target [ID:{chat_id}]: failed")
+            logger.error(f"Target [ID:{chat_id}]: failed")
         else:
             logger.info(f"Target [ID:{chat_id}]: success")
             return True

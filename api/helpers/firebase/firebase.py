@@ -2,6 +2,7 @@ import firebase_admin
 
 from firebase_admin import credentials, firestore, db
 from loguru import logger
+from functools import reduce
 
 
 class FirebaseDatabase:
@@ -57,3 +58,11 @@ class FirebaseDatabase:
                 "changelog": changelog,
             }
         )
+
+    def get_build_link(self, codename, version):
+        try:
+            rldb = self.__db_rldb.get().get("builds").get(codename).get(version)
+            file_id = rldb.get(next(iter(rldb))).get("gdrive_file_id")  # gets only the latest builds
+            return f"https://drive.google.com/uc?export=download&id={file_id}" # direct download link
+        except AttributeError:
+            return None

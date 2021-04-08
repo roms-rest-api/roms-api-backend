@@ -17,8 +17,12 @@ config: dict = None
 devices = DevicesConfig(devices_config="devices.yaml")
 tmp_path = f"{os.getcwd()}/api/tmp/"
 mime = magic.Magic(mime=True)
+
 with open("config.yaml", "r") as config_file:
     config = yaml.load(config_file.read(), Loader=yaml.FullLoader)
+
+with open("devices.yaml", "r") as device:
+    device_config = yaml.load(device.read(), Loader=yaml.FullLoader)
 
 github_instance = Github(config["core"]["github_token"])
 drive_id = config["core"]["drive_id"]
@@ -50,9 +54,10 @@ telegraph = TelegraphPost(
 )
 
 telegram = Telegram(
-    bot_token=telegram_token, 
-    rom_pic_url=rom_pic_url, 
-    buttons=buttons
+    bot_token=telegram_token,
+    rom_pic_url=rom_pic_url,
+    buttons=buttons,
+    config=device_config,
 )
 
 logger.add("backend.log", rotation="1 week")
