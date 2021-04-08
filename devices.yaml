@@ -1,4 +1,5 @@
 violet:
+  maintainer: FILL
   name: Redmi Note 7 Pro
   brand: Xiaomi
   codename: violet
@@ -7,6 +8,7 @@ violet:
       stable: true
   img: https://i.citrus.ua/imgcache/size_500/uploads/shop/a/4/a4280fa657ba385046ebf4e0fb3c9ecd.jpg
 citrus:
+  maintainer: FILL
   name: POCO M3
   brand: Xiaomi
   codename: citrus
@@ -15,6 +17,7 @@ citrus:
       stable: true
   img: https://images.ua.prom.st/3007848233_smartfon-poco-m3.jpg
 RMX1921:
+  maintainer: FILL
   name: XT
   brand: Realme
   codename: RMX1921
@@ -23,6 +26,7 @@ RMX1921:
       stable: false
   img: https://img.ktc.ua/img/base/1_505/8/290388.jpg
 curtana:
+  maintainer: FILL
   name: Redmi Note 9S
   brand: Xiaomi
   codename: curtana
