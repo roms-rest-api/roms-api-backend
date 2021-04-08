@@ -48,10 +48,7 @@ firebase = FirebaseDatabase(
     rldb_builds=rldb_builds,
 )
 
-telegraph = TelegraphPost(
-    short_name=short_name, 
-    author_name=author_name
-)
+telegraph = TelegraphPost(short_name=short_name, author_name=author_name)
 
 telegram = Telegram(
     bot_token=telegram_token,

@@ -4,7 +4,7 @@ import os
 
 from loguru import logger
 from aiogram import Bot, Dispatcher, types
-from aiogram.utils import exceptions, executor
+from aiogram.utils import exceptions
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from datetime import date
 
@@ -77,7 +77,9 @@ class Telegram:
         try:
             response = requests.get(self.__ROM_URL)
             pic_name = os.path.basename(self.__ROM_URL)
-            open(pic_name, "wb").write(response.content)
+            with open(pic_name, "wb") as pic:
+                pic.write(response.content)
+
             return pic_name
         except Exception as e:
             logger.error(e)
