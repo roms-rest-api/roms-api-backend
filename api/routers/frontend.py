@@ -28,9 +28,9 @@ async def builds_handler(device: str, version: str):
     result = []
     for item in ref.items():
         dict_obj = item[1]
-        dict_obj['id'] = item[0]
-        dict_obj['changelog'] = get_changelog(dict_obj)
-        dict_obj['link'] = GDRIVE_BASE_LINK.format(dict_obj['gdrive_file_id'])
+        dict_obj["id"] = item[0]
+        dict_obj["changelog"] = get_changelog(dict_obj)
+        dict_obj["link"] = GDRIVE_BASE_LINK.format(dict_obj["gdrive_file_id"])
 
         result.append(dict_obj)
 

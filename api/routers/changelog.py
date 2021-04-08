@@ -27,10 +27,7 @@ async def device_changelog(codename: str = Form(...)):
     instance = GithubSearcher(codename)
     changelog = instance.get_changelog()
     response = telegraph.create_post(
-        rom_name=short_name, 
-        device=codename, 
-        changelog=changelog, 
-        rom_pic=rom_pic_url
+        rom_name=short_name, device=codename, changelog=changelog, rom_pic=rom_pic_url
     )
     url = firebase.get_build_link(codename=codename, version="eleven")
 
