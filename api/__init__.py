@@ -49,7 +49,7 @@ firebase = FirebaseDatabase(
 )
 
 telegraph = TelegraphPost(
-    short_name=short_name, 
+    short_name=short_name,
     author_name=author_name
 )
 
