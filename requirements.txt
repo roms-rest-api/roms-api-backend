@@ -7,3 +7,8 @@ google-auth-httplib2
 google-auth-oauthlib
 firebase-admin
 telegraph
+pyyaml
+loguru
+jinja2
+aiogram
+python-multipart
