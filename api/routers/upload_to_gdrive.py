@@ -3,9 +3,25 @@ import time
 
 from fastapi import APIRouter, File, UploadFile, Form
 
-from .. import tmp_path, mime, drive_id, firebase, firebase_collection_user
+from .. import (
+    tmp_path,
+    mime,
+    drive_id,
+    firebase,
+    firebase_collection_user,
+    devices,
+    telegraph,
+    short_name,
+    rom_pic_url,
+    telegram,
+    channel_name,
+    support_group,
+)
+
+
 from ..helpers.utils.utils import run_sync
 from ..models.common import APIResponse
+from api.helpers.commits.github import GithubSearcher
 
 router = APIRouter(prefix="/api")
 
@@ -14,18 +30,26 @@ router = APIRouter(prefix="/api")
 async def get_uploads(
     token: str = Form(...),
     codename: str = Form(...),
-    changelog: str = Form(...),
     version: str = Form(...),
     username: str = Form(...),
     file: UploadFile = File(...),
 ):
+    codename = codename.lower()
     user = firebase.get_user(username=username, collection=firebase_collection_user)
-
+    device = devices.get(codename)
     if isinstance(user.to_dict(), dict):
         if token not in user.to_dict()["token"]:
             return APIResponse(status=404, message="USER_NOT_FOUND")
+        elif not device:
+            return APIResponse(status=404, message="DEVICE_NOT_FOUND")
     else:
         return APIResponse(status=404, message="USER_NOT_FOUND")
+
+    instance = GithubSearcher(codename)
+    changelog = instance.get_changelog()
+    response = telegraph.create_post(
+        rom_name=short_name, device=codename, changelog=changelog, rom_pic=rom_pic_url
+    )
 
     from ..helpers.gdrive.gdrive import GoogleDriveTools
 
@@ -52,7 +76,18 @@ async def get_uploads(
         username=username,
         version=version,
         codename=codename,
-        changelog=changelog,
+        changelog=response,
+    )
+
+    download_link = f"https://drive.google.com/uc?export=download&id={file_id}"
+
+    await telegram.send_message(
+        chat_id=channel_name,
+        device=codename,
+        changelog_link=response,
+        rom_name=short_name,
+        group_name=support_group,
+        download_link=download_link,
     )
 
     return APIResponse(status=200, message="SUCCESS")
