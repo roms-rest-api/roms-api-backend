@@ -13,7 +13,7 @@ def main():
     )
 
     app.include_router(router=main_route.router)
-    #app.include_router(router=changelog.router)
+    # app.include_router(router=changelog.router)
     app.include_router(router=upload_to_gdrive.router)
     app.include_router(router=frontend.router)
     app.include_router(router=auth.router)
