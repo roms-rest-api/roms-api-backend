@@ -11,12 +11,17 @@ from api.helpers.configs.devices import DevicesConfig
 from api.helpers.firebase.firebase import FirebaseDatabase
 from api.helpers.telegraph.telegraph import TelegraphPost
 from api.helpers.telegram.telegram import Telegram
+from api.helpers.gdrive.gdrive import GoogleDriveTools
 
+gdrive = GoogleDriveTools()
 app = FastAPI()
 config: dict = None
 devices = DevicesConfig(devices_config="devices.yaml")
-tmp_path = f"{os.getcwd()}/api/tmp/"
 mime = magic.Magic(mime=True)
+
+working_dir = os.getcwd()
+tmp_path = f"{working_dir}/api/tmp/"
+firebase_cert = f"{working_dir}/firebase_credentials.json"
 
 with open("config.yaml", "r") as config_file:
     config = yaml.load(config_file.read(), Loader=yaml.FullLoader)
@@ -26,7 +31,6 @@ with open("devices.yaml", "r") as device:
 
 github_instance = Github(config["core"]["github_token"])
 drive_id = config["core"]["drive_id"]
-firebase_cert = config["core"]["firebase_cred_file"]
 firebase_project_id = config["core"]["firebase_project_id"]
 firebase_collection_user = config["core"]["firebase_collection_user"]
 firebase_collection_admin = config["core"]["firebase_collection_admin"]
