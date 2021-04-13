@@ -8,7 +8,7 @@ class TelegraphPost:
         self.__SHORT_NAME = short_name
         self.__AUTHOR_NAME = author_name
         self.__TELEGRAPH_TOKEN = self.create_acc()
-        self.__template_env = Environment(
+        self.__TEMPLATE_ENV = Environment(
             loader=FileSystemLoader(searchpath="api/templates")
         )
 
@@ -20,7 +20,7 @@ class TelegraphPost:
         return telegraph_token
 
     def create_post(self, rom_name, device, changelog, rom_pic):
-        template = self.__template_env.get_template("template.html")
+        template = self.__TEMPLATE_ENV.get_template("template.html")
         html_content = template.render(
             rom_pic=rom_pic, rom_name=rom_name, changelog=changelog, device=device
         )
