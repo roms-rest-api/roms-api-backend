@@ -12,3 +12,4 @@ loguru
 jinja2
 aiogram
 python-multipart
+apscheduler

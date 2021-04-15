@@ -130,6 +130,7 @@ dmypy.json
 
 # Config stuff
 config.yaml
+devices.yaml
 *.json
 
 # temp dir
