@@ -16,7 +16,6 @@ from api.helpers.gdrive.gdrive import GoogleDriveTools
 gdrive = GoogleDriveTools()
 app = FastAPI()
 config: dict = None
-devices = DevicesConfig(devices_config="devices.yaml")
 mime = magic.Magic(mime=True)
 
 working_dir = os.getcwd()
@@ -25,6 +24,10 @@ firebase_cert = f"{working_dir}/firebase_credentials.json"
 
 with open("config.yaml", "r") as config_file:
     config = yaml.load(config_file.read(), Loader=yaml.FullLoader)
+
+devices_url = config["core"]["devices_url"]
+
+devices = DevicesConfig(devices_url=devices_url)
 
 with open("devices.yaml", "r") as device:
     device_config = yaml.load(device.read(), Loader=yaml.FullLoader)
