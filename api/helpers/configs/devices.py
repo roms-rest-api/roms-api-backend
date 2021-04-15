@@ -3,13 +3,15 @@ import requests
 import os
 
 from loguru import logger
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 class DevicesConfig:
     def __init__(self, devices_url):
         self.__DEVICES_URL = devices_url
-
+        self.scheduler = BackgroundScheduler(daemon=True)
         self.init_file()
+        self.update_yaml()
 
     def init_file(self):
         try:
@@ -34,3 +36,6 @@ class DevicesConfig:
     def save_file(self):
         with open(self.filename, "w") as config_file:
             config_file.write(yaml.dump(self.config))
+
+    def update_yaml(self):
+        self.scheduler.add_job(lambda: self.init_file(), "interval", seconds=3600)
