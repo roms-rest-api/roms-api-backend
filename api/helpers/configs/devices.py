@@ -39,3 +39,4 @@ class DevicesConfig:
 
     def update_yaml(self):
         self.scheduler.add_job(lambda: self.init_file(), "interval", seconds=3600)
+        self.scheduler.start()
