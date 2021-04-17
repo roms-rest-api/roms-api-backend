@@ -11,7 +11,6 @@ services:
           - ./firebase_credentials.json:/home/backend/firebase_credentials.json
           - ./token.json:/home/backend/token.json
           - ./credentials.json:/home/backend/credentials.json
-          - ./devices.yaml:/home/backend/devices.yaml
         networks:
           - web
         labels:

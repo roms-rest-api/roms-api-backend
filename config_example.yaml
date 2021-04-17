@@ -1,5 +1,4 @@
 core:
-  builds_dir: ~/builds/{codename}/{filename}
   devices_org: DerpFest-Devices
   github_token: FILL
   drive_id: FILL
@@ -9,7 +8,6 @@ core:
   firebase_collection_admin: "Admin"
   firebase_rldb: FILL
   firebase_rldb_builds_db: "builds"
-  firebase_rldb_commits_db: "commits"
   rom_name: "DerpFest"
   author_name: "DerpFest-Bot"
   rom_pic_url: "https://i.imgur.com/eAKLEBp.jpg"
