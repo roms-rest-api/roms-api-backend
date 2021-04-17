@@ -14,7 +14,7 @@ from api.helpers.telegram.telegram import Telegram
 from api.helpers.gdrive.gdrive import GoogleDriveTools
 
 gdrive = GoogleDriveTools()
-app = FastAPI()
+app = FastAPI(redoc_url=None, docs_url=None, openapi_url=None)
 config: dict = None
 mime = magic.Magic(mime=True)
 
