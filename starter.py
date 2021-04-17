@@ -22,28 +22,30 @@ cred = credentials.Certificate(firebase_cert)
 firebase_admin.initialize_app(cred, {"projectId": firebase_project_id})
 db = firestore.client()
 
+
 def authorize():
-        creds = None
+    creds = None
 
-        if os.path.exists("token.json"):
-            logger.info("Token already exists!")
-            creds = Credentials.from_authorized_user_file(
-                "token.json", __GDRIVE_SCOPE
+    if os.path.exists("token.json"):
+        logger.info("Token already exists!")
+        creds = Credentials.from_authorized_user_file(
+            "token.json", __GDRIVE_SCOPE
+        )
+
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                "credentials.json", __GDRIVE_SCOPE
             )
+            creds = flow.run_console(port=0)
+            logger.info("Succesfully saved token")
+        # Save the credentials for the next run
+        with open("token.json", "w") as token:
+            token.write(creds.to_json())
 
-        # If there are no (valid) credentials available, let the user log in.
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
-            else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    "credentials.json", __GDRIVE_SCOPE
-                )
-                creds = flow.run_console(port=0)
-                logger.info("Succesfully saved token")
-            # Save the credentials for the next run
-            with open("token.json", "w") as token:
-                token.write(creds.to_json())
 
 def add_admin():
     device = sys.argv[1]
@@ -53,6 +55,7 @@ def add_admin():
 
     db.collection(firebase_collection_admin).document(username).set(data)
     logger.info(f"Successfully added user {username} with device {device}\nwith token: {token}")
+
 
 if len(sys.argv) > 1:
     add_admin()
