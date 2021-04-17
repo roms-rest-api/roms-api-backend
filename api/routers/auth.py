@@ -11,15 +11,15 @@ router = APIRouter(prefix="/auth")
 
 @router.post("/add_user")
 async def add_user(request: AddUserRequest) -> APIResponse:
-    # user = firebase.get_user(
-    #     username=request.admin, collection=firebase_collection_admin
-    # )
+    user = firebase.get_user(
+        username=request.admin, collection=firebase_collection_admin
+    )
 
-    # if isinstance(user.to_dict(), dict):
-    #     if request.token not in user.to_dict()["token"]:
-    #         return APIResponse(status=404, message="USER_NOT_FOUND")
-    # else:
-    #     return APIResponse(status=404, message="USER_NOT_FOUND")
+    if isinstance(user.to_dict(), dict):
+        if request.token not in user.to_dict()["token"]:
+            return APIResponse(status=404, message="USER_NOT_FOUND")
+    else:
+        return APIResponse(status=404, message="USER_NOT_FOUND")
 
     data = {"devices": request.devices, "token": uuid.uuid4().hex}
     firebase.create_user(collection="Users", username=request.name, data=data)

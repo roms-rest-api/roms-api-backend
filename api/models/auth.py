@@ -4,7 +4,9 @@ from pydantic import BaseModel
 
 class AddUserRequest(BaseModel):
     name: str
+    admin: str
     devices: List[str]
+    token: str
 
 
 class UserAddResponse(BaseModel):
